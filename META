@@ -1,5 +1,0 @@
-version = "1.1.0"
-description = "Streaming XML IO for OCaml"
-archive(byte) = "xml-light.cma"
-archive(native) = "xml-light.cmxa"
-directory = "+."
