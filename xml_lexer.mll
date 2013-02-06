@@ -110,7 +110,7 @@ let newline = ['\n']
 let break = ['\r']
 let space = [' ' '\t']
 let identchar =  ['A'-'Z' 'a'-'z' '_' '0'-'9' ':' '-']
-let entitychar = ['A'-'Z' 'a'-'z']
+let entitychar = ['A'-'Z' 'a'-'z' '0'-'9' ]
 let pcchar = [^ '\r' '\n' '<' '>' '&']
 
 rule token = parse
@@ -221,7 +221,7 @@ and header = parse
 	| eof
 		{ error lexbuf ECloseExpected }
 	| _
-		{ header lexbuf }		
+		{ header lexbuf }
 
 and pcdata = parse
 	| pcchar+
@@ -313,7 +313,7 @@ and dq_string = parse
 	| eof
 		{ raise (Error EUnterminatedString) }
 	| _
-		{ 
+		{
 			Buffer.add_char tmp (lexeme_char lexbuf 0);
 			dq_string lexbuf
 		}
@@ -329,7 +329,7 @@ and q_string = parse
 	| eof
 		{ raise (Error EUnterminatedString) }
 	| _
-		{ 
+		{
 			Buffer.add_char tmp (lexeme_char lexbuf 0);
 			q_string lexbuf
 		}
@@ -381,7 +381,7 @@ and dtd_file = parse
 
 and dtd_intern = parse
 	| ']'
-		{ 
+		{
 			ignore_spaces lexbuf;
 			[]
 		}
@@ -458,19 +458,19 @@ and dtd_item_type = parse
 		{
 			ignore_spaces lexbuf;
 			TAttribute
-		} 
+		}
 	| _ | eof
 		{ dtd_error lexbuf EInvalidDTDTag }
 
 and dtd_element_type = parse
 	| "ANY"
-		{ 
+		{
 			ignore_spaces lexbuf;
 			dtd_end_element lexbuf;
 			DTDAny
 		}
 	| "EMPTY"
-		{ 
+		{
 			ignore_spaces lexbuf;
 			dtd_end_element lexbuf;
 			DTDEmpty
@@ -488,13 +488,13 @@ and dtd_element_type = parse
 		{ dtd_error lexbuf EInvalidDTDElement }
 
 and dtd_end_element = parse
-	| '>' 
+	| '>'
 		{ ignore_spaces lexbuf }
 	| _ | eof
 		{ dtd_error lexbuf EInvalidDTDElement }
 
 and dtd_end_attribute = parse
-	| '>' 
+	| '>'
 		{ ignore_spaces lexbuf }
 	| _ | eof
 		{ dtd_error lexbuf EInvalidDTDAttribute }
@@ -548,7 +548,7 @@ and dtd_attr_type = parse
 		}
 	| _ | eof
 		{ dtd_error lexbuf EInvalidDTDAttribute }
-	
+
 and dtd_attr_enum = parse
 	| identchar+
 		{
