@@ -10,9 +10,10 @@ LIBS=
 all: xml_light.cma test.exe doc
 
 opt: xml_light.cmxa test_opt.exe
+	ocamlbuild -no-hygiene xml_light.cmxs
 
 install: all opt
-	ocamlfind install xml-light META xml_light.cmxa xml_light.cmi xml_light.cma xml.mli xmlParser.mli dtd.mli xml.cmi xmlParser.cmi dtd.cmi xml.cmx dtd.cmx xmlParser.cmx
+	ocamlfind install xml-light META xml_light.cmxa xml_light.cmi xml_light.cma xml.mli xmlParser.mli dtd.mli xml.cmi xmlParser.cmi dtd.cmi xml.cmx dtd.cmx xmlParser.cmx _build/xml_light.cmxs
 
 uninstall:
 	ocamlfind remove xml-light
